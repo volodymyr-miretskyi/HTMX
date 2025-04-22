@@ -12,20 +12,101 @@
     <meta name="htmx-config" content='{"selfRequestsOnly": false}' />
     <title>Weather</title>
   </head>
-  <body>
-    <header class="px-5 py-2 flex justify-center bg-white relative">
+  <body class="bg-slate-900">
+    <header
+      class="px-5 py-2 flex justify-center bg-blue-950 relative border-b border-blue-800"
+    >
       <a
         href="./index.html"
         class="text-blue-500 hover:underline absolute left-5 top-2.5"
       >
         Back
       </a>
-      <h1 class="text-2xl font-bold">Weather app</h1>
+      <h1 class="text-2xl font-bold text-blue-200">Weather app</h1>
     </header>
-    <section class="container mx-auto mt-8 text-center">
-      <button type="button" hx-get="/api/weather/" hx-trigger="click">
-        Click
-      </button>
-    </section>
+    <main class="container mx-auto mt-8 text-center">
+      <form
+        class="flex gap-4 justify-center"
+        hx-get="/api/weather"
+        hx-trigger="change, submit"
+        hx-target="#forecast"
+      >
+        <input
+          hx-trigger="input change delay:300ms"
+          type="text"
+          name="city"
+          placeholder="Search by city name"
+          class="border border-blue-800 bg-blue-950 rounded-md px-3 py-2 text-blue-300 [&:focus]:outline-none"
+          value="London"
+          required
+        />
+
+        <div
+          class="flex items-center gap-2 p-1 bg-blue-950 border border-blue-800 rounded-md"
+        >
+          <label
+            for="celsius"
+            class="cursor-pointer text-lg text-white w-8 h-8 pt-[.5px] block rounded-md has-[:checked]:bg-blue-900"
+            >
+            °C
+            <input
+              type="radio"
+              name="unit"
+              id="celsius"
+              value="celsius"
+              class="hidden"
+              checked
+            />
+          </label>
+
+          <label
+            for="fahrenheit"
+            class="cursor-pointer text-lg text-white w-8 h-8 pt-[.5px] block rounded-md has-[:checked]:bg-blue-900"
+          >
+            °F
+            <input
+              type="radio"
+              name="unit"
+              id="fahrenheit"
+              value="fahrenheit"
+              class="hidden"
+            />
+          </label>
+        </div>
+        <div
+          class="flex items-center gap-2 p-1 bg-blue-950 border border-blue-800 rounded-md"
+        >
+          <label
+            for="days_7"
+            class="cursor-pointer text-lg text-white w-8 h-8 pt-[.5px] block rounded-md has-[:checked]:bg-blue-900"
+          >
+            7
+            <input
+              type="radio"
+              name="days"
+              id="days_7"
+              value="7"
+              class="hidden"
+              checked
+            />
+          </label>
+
+          <label
+            for="days_14"
+            class="cursor-pointer text-lg text-white w-8 h-8 pt-[.5px] block rounded-md has-[:checked]:bg-blue-900"
+          >
+            14
+            <input
+              type="radio"
+              name="days"
+              id="days_14"
+              value="14"
+              class="hidden"
+            />
+          </label>
+        </div>
+      </form>
+      <div id="forecast" class="mt-9 flex justify-center"></div>
+    </main>
   </body>
 </html>
