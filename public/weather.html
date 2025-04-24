@@ -24,89 +24,120 @@
       </a>
       <h1 class="text-2xl font-bold text-blue-200">Weather app</h1>
     </header>
+
     <main class="container mx-auto mt-8 text-center">
       <form
-        class="flex gap-4 justify-center"
+        class="flex flex-col gap-4 justify-center"
         hx-get="/api/weather"
-        hx-trigger="change, submit"
+        hx-trigger="load, submit, change"
         hx-target="#forecast"
+        hx-indicator="#loading"
       >
-        <input
-          hx-trigger="input change delay:300ms"
-          type="text"
-          name="city"
-          placeholder="Search by city name"
-          class="border border-blue-800 bg-blue-950 rounded-md px-3 py-2 text-blue-300 [&:focus]:outline-none"
-          value="London"
-          required
-        />
+        <div class="flex gap-4 justify-center">
+          <input
+            id="search"
+            type="text"
+            name="city"
+            placeholder="Search by city name"
+            class="border border-blue-800 bg-blue-950 rounded-md px-3 py-2 text-blue-300 [&:focus]:outline-none"
+            required
+          />
 
-        <div
-          class="flex items-center gap-2 p-1 bg-blue-950 border border-blue-800 rounded-md"
-        >
-          <label
-            for="celsius"
-            class="cursor-pointer text-lg text-white w-8 h-8 pt-[.5px] block rounded-md has-[:checked]:bg-blue-900"
-            >
-            °C
-            <input
-              type="radio"
-              name="unit"
-              id="celsius"
-              value="celsius"
-              class="hidden"
-              checked
-            />
-          </label>
-
-          <label
-            for="fahrenheit"
-            class="cursor-pointer text-lg text-white w-8 h-8 pt-[.5px] block rounded-md has-[:checked]:bg-blue-900"
+          <button
+            id="search-button"
+            type="submit"
+            class="bg-blue-950 border border-blue-800 rounded-md px-3 py-2 text-blue-300 hover:bg-blue-900"
           >
-            °F
-            <input
-              type="radio"
-              name="unit"
-              id="fahrenheit"
-              value="fahrenheit"
-              class="hidden"
-            />
-          </label>
+            Search
+          </button>
         </div>
-        <div
-          class="flex items-center gap-2 p-1 bg-blue-950 border border-blue-800 rounded-md"
-        >
-          <label
-            for="days_7"
-            class="cursor-pointer text-lg text-white w-8 h-8 pt-[.5px] block rounded-md has-[:checked]:bg-blue-900"
+        <div class="flex gap-4 justify-center">
+          <div
+            class="flex items-center gap-2 p-1 bg-blue-950 border border-blue-800 rounded-md"
           >
-            7
-            <input
-              type="radio"
-              name="days"
-              id="days_7"
-              value="7"
-              class="hidden"
-              checked
-            />
-          </label>
+            <label
+              for="celsius"
+              class="cursor-pointer text-lg text-white w-8 h-8 pt-[.5px] block rounded-md has-[:checked]:bg-blue-900"
+            >
+              °C
+              <input
+                type="radio"
+                name="unit"
+                id="celsius"
+                value="celsius"
+                class="hidden"
+                checked
+              />
+            </label>
 
-          <label
-            for="days_14"
-            class="cursor-pointer text-lg text-white w-8 h-8 pt-[.5px] block rounded-md has-[:checked]:bg-blue-900"
+            <label
+              for="fahrenheit"
+              class="cursor-pointer text-lg text-white w-8 h-8 pt-[.5px] block rounded-md has-[:checked]:bg-blue-900"
+            >
+              °F
+              <input
+                type="radio"
+                name="unit"
+                id="fahrenheit"
+                value="fahrenheit"
+                class="hidden"
+              />
+            </label>
+          </div>
+          <div
+            class="flex items-center gap-2 p-1 bg-blue-950 border border-blue-800 rounded-md"
           >
-            14
-            <input
-              type="radio"
-              name="days"
-              id="days_14"
-              value="14"
-              class="hidden"
-            />
-          </label>
+            <label
+              for="days_7"
+              class="cursor-pointer text-lg text-white w-8 h-8 pt-[.5px] block rounded-md has-[:checked]:bg-blue-900"
+            >
+              7
+              <input
+                type="radio"
+                name="days"
+                id="days_7"
+                value="7"
+                class="hidden"
+                checked
+              />
+            </label>
+
+            <label
+              for="days_14"
+              class="cursor-pointer text-lg text-white w-8 h-8 pt-[.5px] block rounded-md has-[:checked]:bg-blue-900"
+            >
+              14
+              <input
+                type="radio"
+                name="days"
+                id="days_14"
+                value="14"
+                class="hidden"
+              />
+            </label>
+          </div>
         </div>
       </form>
-      <div id="forecast" class="mt-9 flex justify-center"></div>
+      <div id="forecast" class="mt-9 flex justify-center">
+        <span class="htmx-indicator" id="loading" class="mt-4">
+          <img src="./images/loader.gif" alt="Loading..." class="m-auto h-10" />
+        </span>
+      </div>
+      <script>
+        const searchInput = document.getElementById("search");
+        const searchButton = document.getElementById("search-button");
+
+        const city = localStorage.getItem("city") || "London";
+
+        document.addEventListener("DOMContentLoaded", () => {
+          searchInput.value = city;
+          searchButton.click();
+        });
+
+        searchButton.addEventListener("click", () => {
+          localStorage.setItem("city", searchInput.value);
+        });
+      </script>
     </main>
   </body>
 </html>
