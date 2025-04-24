@@ -52,7 +52,6 @@ const renderWeatherForecastItem = (data) => {
   `;
 };
 
-//TODO: finish endpoint
 router.get("/", async (req, res) => {
   const city = req.query.city || "London";
   const unit = req.query.unit || "celsius";
@@ -70,7 +69,6 @@ router.get("/", async (req, res) => {
     });
 
     const result = await axios.get(`${process.env.WEATHER_API_URL}?${params}`);
-    console.log(result.data);
     const forecast = mapForecastData(result.data.daily);
 
     res.send(
